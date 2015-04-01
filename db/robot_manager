@@ -1,0 +1,10 @@
+---
+robots:
+- id: 1
+  name: Gus
+  city: Philly
+  state: PA
+  birthdate: 4/22/85
+  datehired: today
+  department: science
+total: 1
