@@ -3,6 +3,11 @@ require 'yaml/store'
 class RobotManager
   def self.create(robot)
     database.transaction do
+      if robot.has_key?("file")
+        image = "/images/#{robot[:file][:filename]}"
+      else
+        image = "no image given"
+      end
       database['robots'] ||= []
       database['total'] ||= 0
       database['total'] += 1
@@ -14,9 +19,7 @@ class RobotManager
         "birthdate" => robot[:birthdate],
         "datehired" => robot[:datehired],
         "department" => robot[:department],
-        "file" => "app/public/images/#{robot[:file][:filename]}"
-        # "file" => robot[:file][:filename]
-        # "file" => robot[:file]#[:filename]
+        "file" => image
         }
     end
   end

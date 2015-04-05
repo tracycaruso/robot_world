@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="/application.css">
+  <link rel="stylesheet" href="css/styles.css">
   <title><%= @title %></title>
 </head>
-<body>
+<body class="page_1">
   <div class="container">
     <header>
       <h1><%= @title %></h1>
     </header>
 
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/robots">Directory</a></li>
-        <li><a href="/dashboard">Dashboard</a></li>
-      </ul>
-    </nav>
 
     <main>
       <%= yield %>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/robots">Directory</a></li>
+          <li><a href="/dashboard">Dashboard</a></li>
+        </ul>
+      </nav>
+
     </main>
 
   </div>
 
-  <footer> &copy; <%= Time.now.year %> | Site by <a href="http://tracymcaruso.com">Tracy Caruso</a><footer>
+  <footer> <p>&copy; <%= Time.now.year %> | Site by <a href="http://tracymcaruso.com">Tracy Caruso</a></p><footer>
 </body>
 </html>

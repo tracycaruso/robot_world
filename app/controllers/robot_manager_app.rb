@@ -26,11 +26,13 @@ class RobotManagerApp < Sinatra::Base
   # Add Robot to Database
   post '/robots' do
     RobotManager.create(params[:robot])
-    @filename = params[:robot][:file][:filename]
-    file = params[:robot][:file][:tempfile]
-
-    File.open("app/public/images/#{@filename}", 'wb') do |f|
-      f.write(file.read)
+    parameters = params[:robot]
+    if parameters.has_key?("file")
+      @filename = params[:robot][:file][:filename] ||= "no file"
+      file = params[:robot][:file][:tempfile]
+      File.open("app/public/images/#{@filename}", 'wb') do |f|
+        f.write(file.read)
+      end
     end
     # puts request.inspect
     # puts request.inspect

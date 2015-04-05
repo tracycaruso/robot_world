@@ -1,27 +1,27 @@
 ---
 robots:
-- id: 7
-  name: robotnew
-  city: new
-  state: new
-  birthdate: new
-  datehired: new
-  department: new
-  file: app/public/images/6.jpg
-- id: 8
-  name: Tracy
-  city: Denver
-  state: CO
-  birthdate: April
-  datehired: May
-  department: Tech
-  file: app/public/images/2.jpg
-- id: 9
-  name: Tracy
-  city: Denver
-  state: CO
-  birthdate: 4/22/85
-  datehired: today
-  department: Tech
-  file: app/public/images/6.jpg
-total: 9
+- id: 11
+  name: Bender Bending Rodriguez
+  city: New New York
+  state: New York
+  birthdate: '2996'
+  datehired: '3005'
+  department: Assistant Manager of Sales
+  file: "/images/bender.jpg"
+- id: 12
+  name: Robot Devil
+  city: Hell
+  state: New Jersey
+  birthdate: " 2275"
+  datehired: '2285'
+  department: Professional Ruller of Robot Hell
+  file: "/images/robot_devil.jpg"
+- id: 13
+  name: Robot Santa Claus
+  city: Death Fortress
+  state: Neptune
+  birthdate: '2801'
+  datehired: '2801'
+  department: Holiday Figure
+  file: "/images/santabot.jpg"
+total: 39
