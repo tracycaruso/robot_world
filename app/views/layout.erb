@@ -2,11 +2,28 @@
 <html lang="en">
 <head>
   <link rel="stylesheet" href="/application.css">
-  <title>Robot World</title>
+  <title><%= @title %></title>
 </head>
 <body>
   <div class="container">
-    <%= yield %>
+    <header>
+      <h1><%= @title %></h1>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/robots">Directory</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <%= yield %>
+    </main>
+
   </div>
+
+  <footer> &copy; <%= Time.now.year %> | Site by <a href="http://tracymcaruso.com">Tracy Caruso</a><footer>
 </body>
 </html>

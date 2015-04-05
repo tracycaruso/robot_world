@@ -1,10 +1,6 @@
 require 'yaml/store'
 
 class RobotManager
-  def self.database
-    @database ||= YAML::Store.new("db/robot_manager")
-  end
-
   def self.create(robot)
     database.transaction do
       database['robots'] ||= []
@@ -12,13 +8,71 @@ class RobotManager
       database['total'] += 1
       database['robots'] << {
         "id" => database['total'],
-        "name" => task[:name],
-        "city" => task[:city],
-        "state" => task[:state],
-        "birthdate" => task[:birthdate],
-        "datehired" => task[:datehired],
-        "department" => task[:department]
+        "name" => robot[:name],
+        "city" => robot[:city],
+        "state" => robot[:state],
+        "birthdate" => robot[:birthdate],
+        "datehired" => robot[:datehired],
+        "department" => robot[:department],
+        "file" => "app/public/images/#{robot[:file][:filename]}"
+        # "file" => robot[:file][:filename]
+        # "file" => robot[:file]#[:filename]
         }
     end
   end
+
+  def self.database
+    if ENV["ROBOT_MANAGER_ENV"] == 'test'
+      @database ||= YAML::Store.new("../../db/robot_manager_test")
+    else
+      @database ||= YAML::Store.new("db/robot_manager")
+    end
+  end
+
+  def self.raw_robots
+    database.transaction do
+      database['robots'] || []
+    end
+  end
+
+  def self.all
+    raw_robots.map{|robot| Robot.new(robot)}
+  end
+
+  def self.raw_robot(id)
+    raw_robots.find{|robot| robot["id"] == id}
+  end
+
+  def self.find(id)
+    Robot.new(raw_robot(id))
+  end
+
+  def self.update(id, robot)
+    database.transaction do
+      target = database['robots'].find { |robot| robot["id"]  == id}
+      target["name"] = robot[:name]
+      target["city"] = robot[:city]
+      target["state"] = robot[:state]
+      target["birthdate"] = robot[:birthdate]
+      target["datehired"] = robot[:datehired]
+      target["department"] = robot[:department]
+     end
+  end
+
+  def self.destroy(id)
+    database.transaction do
+      database['robots'].delete_if{ |robot| robot["id"] == id }
+    end
+  end
+
+  def self.delete_all
+    #database.from(:tasks).delete
+    database.transaction do
+      database['robots'] = []
+      database['total'] = 0
+    end
+  end
+
+
+
 end

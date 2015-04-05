@@ -1,55 +1,69 @@
-require 'models/robot_manager'
-
 class RobotManagerApp < Sinatra::Base
-  set :root, File.join(File.dirname(__FILE__), '..')
-
   get "/" do
+    @title = "Robot World"
     erb :index
   end
 
-
-  get '/robots' do
-    @tasks = ["task1", "task2", "task3"]
-    erb :dashboard
+  # See all Robots
+  get "/robots" do
+    @title = "Robot Directory"
+    @robots = RobotManager.all
+    erb :directory
   end
 
+  # Create new Robot / Show Form
   get '/robots/new' do
+    @title = "Create New Robot"
     erb :new
   end
 
+  # View Dashboard
+  get '/dashboard' do
+    @title = "Dashboard"
+    erb :dashboard
+  end
+
+  # Add Robot to Database
   post '/robots' do
     RobotManager.create(params[:robot])
+    @filename = params[:robot][:file][:filename]
+    file = params[:robot][:file][:tempfile]
+
+    File.open("app/public/images/#{@filename}", 'wb') do |f|
+      f.write(file.read)
+    end
+    # puts request.inspect
+    # puts request.inspect
     redirect '/robots'
   end
 
-  get "/upload" do
-    erb :upload
-  end
-# # Handle POST-request (Receive and save the uploaded file)
-# post "/upload" do
-#   File.open('uploads/' + params['myfile'][:filename], "w") do |f|
-#     f.write(params['myfile'][:tempfile].read)
-#   end
-#   return "The file was successfully uploaded!"
-# end
-#
-
-
-
-  get "/new_robot" do
-    erb :form
+  get '/robots/:id' do |id|
+    @robot = RobotManager.find(id.to_i)
+    @title = @robot.name
+    erb :single
   end
 
-  post '/save_image' do
-
-  @filename = params[:file][:filename]
-  file = params[:file][:tempfile]
-
-  File.open("app/public/images/#{@filename}", 'wb') do |f|
-    f.write(file.read)
+  # # # edit robot
+  get "/robots/:id/edit" do |id|
+    @robot = RobotManager.find(id.to_i)
+    @title = "Edit #{@robot.name}"
+    erb :edit
   end
 
-  erb :show_image
+  put '/robots/:id' do |id|
+    RobotManager.update(id.to_i, params[:robot])
+    redirect "/robots/#{id}"
   end
+
+  delete '/robots/:id' do |id|
+    RobotManager.destroy(id.to_i)
+    redirect "/robots"
+  end
+
+  not_found do
+    @title = "An Error Occured"
+    erb :error
+  end
+
 
 end

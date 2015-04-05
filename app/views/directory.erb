@@ -1,0 +1,14 @@
+<div class="row">
+
+  <% @robots.each do |robot| %>
+  <div class="column">
+    <h3> <a href="/robots/<%= robot.id %>"><%= robot.name %></a></h3>
+    <a href="/robots/<%= robot.id %>/edit">Edit</a>
+    <form action="/robots/<%= robot.id %>" method="POST">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" value="delete">
+    </form>
+  </div>
+  <% end %>
+
+</div>
